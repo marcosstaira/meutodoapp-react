@@ -1,33 +1,35 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { useTheme } from 'react-native-paper';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function TabsLayout() {
+  const theme = useTheme(); // Acessa as cores do tema do Paper
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: theme.colors.primary, // Cor do ícone ativo
+        tabBarInactiveTintColor: 'gray', // Cor do ícone inativo
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="lista" // Corresponde ao arquivo app/(tabs)/lista.js
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Tarefas', // Texto na aba
+          headerTitle: 'Minhas Tarefas', // Texto no cabeçalho
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="format-list-checks" color={color} size={size} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="perfil" // Corresponde ao arquivo app/(tabs)/perfil.js
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Perfil',
+          headerTitle: 'Meu Perfil',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />
+          ),
         }}
       />
     </Tabs>
