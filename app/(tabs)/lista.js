@@ -1,19 +1,13 @@
-import { useFocusEffect, useRouter } from 'expo-router';
-import React from 'react';
+import { useRouter } from 'expo-router';
 import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Checkbox, FAB, IconButton, useTheme } from 'react-native-paper';
 import { useTasks } from '../../context/TasksContext';
 
 const TelaListaTarefas = () => {
-  const { tarefas, loading, buscarTarefas, toggleTarefa, deletarTarefa } = useTasks();
+  // A tela agora só precisa pegar as variáveis do contexto. A lógica de carregar já foi feita.
+  const { tarefas, loading, toggleTarefa, deletarTarefa } = useTasks();
   const router = useRouter();
   const theme = useTheme();
-  
-  useFocusEffect(
-    React.useCallback(() => {
-      buscarTarefas();
-    }, [])
-  );
 
   const confirmarDelecao = (id) => {
     Alert.alert(
@@ -32,17 +26,13 @@ const TelaListaTarefas = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <Checkbox
-        status={item.concluida ? 'checked' : 'unchecked'}
-        onPress={() => toggleTarefa(item)}
-      />
+      <Checkbox status={item.concluida ? 'checked' : 'unchecked'} onPress={() => toggleTarefa(item)} />
       <TouchableOpacity 
         style={{ flex: 1 }} 
         onPress={() => router.push({ pathname: '/editarTarefa', params: { id: item.id, texto: item.texto, concluida: item.concluida } })}
       >
         <Text style={[styles.itemText, item.concluida && styles.textoConcluido]}>{item.texto}</Text>
       </TouchableOpacity>
-      
       <View style={styles.actionsContainer}>
         <IconButton
           icon="pencil-outline"
@@ -80,25 +70,10 @@ const styles = StyleSheet.create({
   containerCarregando: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   fab: { position: 'absolute', margin: 16, right: 0, bottom: 0 },
   listaVazia: { textAlign: 'center', marginTop: 50, fontSize: 16, color: 'gray' },
-  itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  itemText: {
-    fontSize: 16,
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-  },
-  textoConcluido: { 
-    textDecorationLine: 'line-through', 
-    color: 'gray' 
-  },
-  actionsContainer: {
-    flexDirection: 'row',
-  }
+  itemContainer: { flexDirection: 'row', alignItems: 'center', paddingLeft: 8, borderBottomWidth: 1, borderBottomColor: '#eee' },
+  itemText: { flex: 1, fontSize: 16, paddingVertical: 20, paddingHorizontal: 10 },
+  textoConcluido: { textDecorationLine: 'line-through', color: 'gray' },
+  actionsContainer: { flexDirection: 'row' }
 });
 
 export default TelaListaTarefas;

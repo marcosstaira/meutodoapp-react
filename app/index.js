@@ -19,13 +19,12 @@ const TelaLogin = () => {
         return;
     }
     setLoading(true);
-
     try {
         const response = await api.post('/api/auth/login', { email, senha });
-        const token = response.data.token; 
+        const token = response.data.token;
         if (token) {
-            await saveToken(token); 
-            router.replace('/(tabs)/lista'); 
+            await saveToken(token);
+            router.replace('/(tabs)/lista');
         } else {
             throw new Error("Token não recebido do servidor");
         }
@@ -37,7 +36,7 @@ const TelaLogin = () => {
     }
   };
 
- return (
+  return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Text variant="displayMedium" style={styles.title}>MEU-TODO-APP</Text>
@@ -48,7 +47,7 @@ const TelaLogin = () => {
             <Button mode="text" onPress={() => router.push('/registrar')} textColor={theme.colors.primary} disabled={loading}>Criar uma conta</Button>
         </ScrollView>
     </KeyboardAvoidingView>
-);
+  );
 };
 
 const styles = StyleSheet.create({

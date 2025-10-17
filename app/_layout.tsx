@@ -3,7 +3,6 @@ import { TasksProvider } from '../context/TasksContext';
 
 export default function RootLayout() {
   return (
-  
     <TasksProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />

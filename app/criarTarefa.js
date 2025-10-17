@@ -30,21 +30,8 @@ const TelaCriarTarefa = () => {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.content}>
         <Text variant="headlineLarge" style={styles.title}>O que você precisa fazer?</Text>
-        <TextInput
-          label="Nome da Tarefa"
-          value={textoTarefa}
-          onChangeText={setTextoTarefa}
-          mode="outlined"
-          style={styles.input}
-          autoFocus={true}
-        />
-        <Button 
-            mode="contained" 
-            onPress={handleSalvar} 
-            style={styles.button}
-            loading={loading}
-            disabled={loading}
-        >Salvar Tarefa</Button>
+        <TextInput label="Nome da Tarefa" value={textoTarefa} onChangeText={setTextoTarefa} mode="outlined" style={styles.input} autoFocus={true} />
+        <Button mode="contained" onPress={handleSalvar} style={styles.button} loading={loading} disabled={loading}>Salvar Tarefa</Button>
         <Button mode="text" onPress={() => router.back()} disabled={loading}>Cancelar</Button>
       </View>
     </KeyboardAvoidingView>
