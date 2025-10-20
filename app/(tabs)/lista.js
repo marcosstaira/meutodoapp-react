@@ -1,13 +1,20 @@
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
+import React from 'react';
 import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Checkbox, FAB, IconButton, useTheme } from 'react-native-paper';
 import { useTasks } from '../../context/TasksContext';
 
 const TelaListaTarefas = () => {
-  // A tela agora só precisa pegar as variáveis do contexto. A lógica de carregar já foi feita.
-  const { tarefas, loading, toggleTarefa, deletarTarefa } = useTasks();
+  const { tarefas, loading, buscarTarefas, toggleTarefa, deletarTarefa } = useTasks();
   const router = useRouter();
   const theme = useTheme();
+  
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      buscarTarefas();
+    }, [])
+  );
 
   const confirmarDelecao = (id) => {
     Alert.alert(
@@ -16,6 +23,7 @@ const TelaListaTarefas = () => {
     );
   };
 
+  
   if (loading) {
     return (
       <View style={styles.containerCarregando}>
@@ -24,6 +32,7 @@ const TelaListaTarefas = () => {
     );
   }
 
+  
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Checkbox status={item.concluida ? 'checked' : 'unchecked'} onPress={() => toggleTarefa(item)} />

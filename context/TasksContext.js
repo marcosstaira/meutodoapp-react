@@ -2,9 +2,6 @@ import React, { createContext, useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import api from '../services/api';
 
-// --- AQUI ESTÁ A CORREÇÃO PRINCIPAL ---
-// 1. Criamos uma "planta padrão" para o nosso contexto.
-//    Ela diz ao sistema quais funções existem, mesmo que comecem vazias.
 const defaultValue = {
   tarefas: [],
   loading: false,
@@ -15,7 +12,6 @@ const defaultValue = {
   updateTarefa: async (id, dados) => {},
 };
 
-// 2. Criamos o contexto usando a planta padrão em vez de 'null'.
 const TasksContext = createContext(defaultValue);
 
 export function TasksProvider({ children }) {
@@ -39,7 +35,6 @@ export function TasksProvider({ children }) {
       const response = await api.post('/api/tarefas', { texto, concluida: false });
       setTarefas(tarefasAtuais => [...tarefasAtuais, response.data]);
     } catch (error) {
-      console.error("Erro ao adicionar tarefa:", error);
       Alert.alert("Erro", "Não foi possível adicionar a tarefa.");
     }
   };
@@ -49,7 +44,6 @@ export function TasksProvider({ children }) {
       await api.delete(`/api/tarefas/${id}`);
       setTarefas(tarefasAtuais => tarefasAtuais.filter(tarefa => tarefa.id !== id));
     } catch (error) {
-      console.error("Erro ao deletar tarefa:", error);
       Alert.alert("Erro", "Não foi possível deletar a tarefa.");
     }
   };
@@ -59,7 +53,6 @@ export function TasksProvider({ children }) {
       const response = await api.put(`/api/tarefas/${id}`, dadosAtualizados);
       setTarefas(tarefasAtuais => tarefasAtuais.map(t => (t.id === id ? response.data : t)));
     } catch (error) {
-      console.error("Erro ao editar tarefa:", error);
       Alert.alert("Erro", "Não foi possível editar a tarefa.");
     }
   };
@@ -68,11 +61,10 @@ export function TasksProvider({ children }) {
     await updateTarefa(tarefa.id, { ...tarefa, concluida: !tarefa.concluida });
   };
 
-  const value = {
-    tarefas, loading, buscarTarefas, addTarefa, deletarTarefa, toggleTarefa, updateTarefa
-  };
+  const value = { tarefas, loading, buscarTarefas, addTarefa, deletarTarefa, toggleTarefa, updateTarefa };
 
   return (
+   
     <TasksContext.Provider value={value}>
       {children}
     </TasksContext.Provider>

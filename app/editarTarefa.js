@@ -18,8 +18,9 @@ const TelaEditarTarefa = () => {
     }
     setLoading(true);
     try {
+      
       await updateTarefa(id, { texto: novoTexto.trim(), concluida: concluida === 'true' });
-      router.back();
+      router.back(); 
     } catch (error) {
       console.error("Erro ao salvar edição:", error);
     } finally {
